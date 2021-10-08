@@ -1,0 +1,31 @@
+.logo{
+    max-width: 110px;
+    max-height: 100px;
+}
+
+.nav{
+    display: flex;
+    width: 100%;
+    color: white;
+    height: 8vh;
+    min-height: 4.6rem;
+    align-items: center;
+    justify-content: space-between;
+    padding: 0 1rem;
+    background-color:deeppink;
+}
+
+.navbar-brand {
+    display: flex;
+}
+
+.dropdown-menu {
+    background-color:deeppink;
+    text-align: center;
+}
+
+.dropdown-item {
+    color: white;
+    font-size: 1.4rem;
+    font-style: italic;
+}
