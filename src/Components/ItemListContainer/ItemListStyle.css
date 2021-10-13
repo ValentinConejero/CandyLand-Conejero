@@ -1,0 +1,20 @@
+.red{
+    color: red;
+}
+
+.orange{
+    color:orange;
+}
+
+.font{
+    font-family: Impact, Haettenschweiler, 'Arial Narrow Bold', sans-serif;
+}
+
+.center{
+    justify-content: center;
+    display: flex;
+}
+
+.block{
+    display: inline-block;
+}

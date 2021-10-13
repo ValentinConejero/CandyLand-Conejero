@@ -1,0 +1,17 @@
+.tam{
+    width: 40px;
+}
+
+.imgContainer{
+    height: 100px;
+    width: 110px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.num{
+    padding-left: 0.5rem;
+    font-size: 1rem;
+    font-weight: 600;
+}

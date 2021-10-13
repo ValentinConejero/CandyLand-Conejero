@@ -17,6 +17,11 @@
 
 .navbar-brand {
     display: flex;
+    margin-right: 0;
+}
+
+.center{
+    justify-content: center;
 }
 
 .dropdown-menu {
