@@ -2,7 +2,7 @@ import Logo from "../../Assets/img/candylandT.png"
 import "./Navbar.css"
 import Cart from "../CartWidget/CartWidget.js"
 
-const Navbar = () => {
+const Navbar = ({count}) => {
     return <>
         <nav className="navbar navbar-expand-sm navbar-light  nav">
             <img className="navbar-brand logo" href="CandyLand" src={Logo} alt="ImgLogo"></img>
@@ -35,7 +35,7 @@ const Navbar = () => {
                 </ul>
               
             </div>
-            <Cart />
+            <Cart count={count}/>
         </nav>
 
 

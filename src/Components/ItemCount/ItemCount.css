@@ -1,0 +1,30 @@
+.cent{
+    justify-content: center;
+    display: flex;
+    flex-direction: column;
+   
+}
+
+.mar{
+    margin: 0;
+    padding: 0;
+    justify-content: center;
+}
+
+.pad{
+    padding: 0;
+}
+
+.top{
+    margin-top: 0.3rem;
+}
+
+.inputc{
+    text-align: center;
+}
+
+.masmeno{
+    font-size: 1.2rem;
+    font-style: italic;
+    font-weight: 700;
+}
