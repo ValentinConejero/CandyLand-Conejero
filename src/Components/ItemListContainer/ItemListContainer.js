@@ -4,48 +4,6 @@ import "./ItemListStyle.css"
 import React, { useState, useEffect } from 'react';
 
 
-
-
-
-const ItemListContainer = ({ count, setCount }) => {
-
-    const [productos, setProductos] = useState([products]);
-
-
-    useEffect(() => {
-        const task = new Promise((resolve, reject) => {
-
-            setTimeout(() => {
-                resolve(products)
-            }, 10000)
-        });
-        task
-            .then(
-                (result) => {
-                    setProductos(result);
-                },
-
-            );
-    }, []);
-
-
-    return <>
-
-        <div className="center container" >
-            <h1 className="orange font  block"><spam className="red font"> Nuestros</spam>Productos </h1>
-        </div>
-
-
-        <ItemCount count={count} setCount={setCount} stock="10" />
-        <ItemList products={products} />
-    </>
-}
-
-
-
-
-
-
 const products = [
     {
         id: "1",
@@ -121,6 +79,63 @@ const products = [
     }
 
 ]
+
+
+// function getList() {
+//     return new Promise((resolve, reject) => {
+
+//         setTimeout(() => {
+//             resolve(products)
+//         }, 2000)
+
+//     });
+// }
+
+const ItemListContainer = ({ count, setCount }) => {
+
+    const [productos, setProductos] = useState([]);
+
+
+
+
+    useEffect(() => {
+
+        const list = new Promise((resolve, reject) => {
+
+            setTimeout(() => {
+                resolve(products)
+            }, 2000)
+    
+        });
+
+        list.then(
+                list => {
+                    setProductos(list);
+                    console.log(list)
+                },
+                
+            );
+    }, []);
+
+
+    return <>
+
+        <div className="center container" >
+            <h1 className="orange font  block"><p className="red font"> Nuestros</p>Productos </h1>
+        </div>
+
+
+        <ItemCount count={count} setCount={setCount} stock="10" />
+        <ItemList productos={productos} />
+    </>
+}
+
+
+
+
+
+
+
 
 
 export default ItemListContainer
