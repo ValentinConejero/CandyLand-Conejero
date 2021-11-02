@@ -4,6 +4,9 @@ import 'bootstrap/dist/js/bootstrap.bundle.min';
 import Navbar from "./Components/Navbar/Navbar.js"
 import ItemListContainer from './Components/ItemListContainer/ItemListContainer';
 import React, {useState} from 'react';
+import ItemDetailContainer from './Components/ItemDetailContainer/ItemDetailContainer';
+import {BrowserRouter, Switch, Route} from 'react-router-dom';
+
 
 
 function App() {
@@ -11,13 +14,22 @@ function App() {
   return (
     <>
     
-    
+    <BrowserRouter>
       <header >
       <Navbar count={count}/> 
       </header>
       <main>
-      <ItemListContainer count={count} setCount ={setCount}/>
+        <Switch>
+          <Route exact path = '/item/:id'> 
+          <ItemDetailContainer count={count} setCount ={setCount}></ItemDetailContainer>
+          </Route>
+          <Route exact path = '/' component = {ItemListContainer}/>
+        </Switch>
+      
       </main>
+      
+        
+    </BrowserRouter>
     </>
   );
 }
