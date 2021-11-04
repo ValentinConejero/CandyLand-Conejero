@@ -24,6 +24,7 @@ function App() {
           <ItemDetailContainer count={count} setCount ={setCount}></ItemDetailContainer>
           </Route>
           <Route exact path = '/' component = {ItemListContainer}/>
+          <Route exact path = '/category/:category' component={ItemListContainer}/>
         </Switch>
       
       </main>

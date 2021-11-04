@@ -29,6 +29,9 @@
     text-align: center;
 }
 
+.colorD{
+    background-color: deeppink;
+}
 .dropdown-item {
     color: white;
     font-size: 1.4rem;
