@@ -1,9 +1,10 @@
 import Logo from "../../Assets/img/candylandT.png"
 import "./Navbar.css"
-import Cart from "../CartWidget/CartWidget.js"
+//import Cart from "../CartWidget/CartWidget.js"
 import {NavLink, Link} from "react-router-dom"
 import Category from "../../Assets/Categorias/Category"
 import { capt } from "../../Assets/Funciones"
+import CartWidget from "../CartWidget/CartWidget.js"
 
 const Navbar = ({count}) => {
     console.log(Category)
@@ -19,8 +20,8 @@ const Navbar = ({count}) => {
             <div className="collapse navbar-collapse center" id="navbarSupportedContent">
                 <ul className="navbar-nav mr-auto">
                     <li className="nav-item active">
-                    <Link to='/' >
-                        <a className="nav-link"><b>Inicio</b><span className="sr-only"></span></a>
+                    <Link to='/' className="nav-link" >
+                        <a><b>Inicio</b></a>
                     </Link>
                     </li>
                     
@@ -39,12 +40,12 @@ const Navbar = ({count}) => {
                     </li>
 
                     <li className="nav-item">
-                        <a className="nav-link" href=""><b>Sobre nosotros...</b></a>
+                        <a className="nav-link" href="SobreNosotros"><b>Sobre nosotros...</b></a>
                     </li>
                 </ul>
               
             </div>
-            <Cart count={count}/>
+            <CartWidget count={count}/>
         </nav>
 
 
