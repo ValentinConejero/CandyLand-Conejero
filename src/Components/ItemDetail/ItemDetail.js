@@ -1,12 +1,23 @@
 import "./ItemDetail.css"
 import ItemCount from "../ItemCount/ItemCount"
-import React, { useEffect, useState } from 'react';
+import React, { useContext, useEffect, useState } from 'react';
 import { NavLink } from "react-router-dom"
 import Tick from "../../Assets/img/Tick.png"
+import { CartContext } from "../../Context/CartContext/CartContext";
 
-const ItemDetail = ({ candy ,count ,setCount }) => {
+const ItemDetail = ({candy, count, setCount }) => {
 
     const [agg, setAgg] = useState(false);
+    const [counter, setCounter] = useState(0);
+    const { addProd } = useContext(CartContext)
+
+    const onAdd = () => {
+        setCount(count + counter)
+        setAgg(true)
+        addProd(candy, count)
+        
+    }
+
 
     useEffect(() => {
 
@@ -28,7 +39,12 @@ const ItemDetail = ({ candy ,count ,setCount }) => {
 
                 <div className="col-sm-12 mt">
                     {!agg ?
-                        <ItemCount setAgg={setAgg} count={count} setCount={setCount} stock="10" />
+                        <div>
+                            <ItemCount setAgg={setAgg} counter={counter} setCounter={setCounter} stock="10" />
+                            <div className="butCen">
+                                <button type="button-lg" className="btn btn-outline-success col-sm-6 top" onClick={onAdd}>Agregar al Carrito</button>
+                            </div>
+                        </div>
                         :
                         <div>
                             <img className="navbar-brand logo " href="Tick" src={Tick} alt="ImgLogo"></img>
