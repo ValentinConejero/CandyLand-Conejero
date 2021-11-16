@@ -1,0 +1,25 @@
+.bord{
+    border-bottom: 2px solid black;
+}
+
+.tcen{
+    text-align: center;
+}
+
+.totalbut{
+    justify-content:end;
+    display: flex;
+}
+
+.totp{
+    margin-right: 20px;
+    margin-top: 10px;
+}
+
+.margbut{
+    margin-right: 30px;
+}
+
+.marglet{
+    margin-right: 2px;
+}

@@ -14,7 +14,7 @@ const ItemDetail = ({candy, count, setCount }) => {
     const onAdd = () => {
         setCount(count + counter)
         setAgg(true)
-        addProd(candy, count)
+        addProd(candy, counter)
         
     }
 

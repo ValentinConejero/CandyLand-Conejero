@@ -21,7 +21,7 @@ const Navbar = ({count}) => {
                 <ul className="navbar-nav mr-auto">
                     <li className="nav-item active">
                     <Link to='/' className="nav-link" >
-                        <a><b>Inicio</b></a>
+                        <b>Inicio</b>
                     </Link>
                     </li>
                     

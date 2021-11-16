@@ -16,25 +16,26 @@ export const CartContextProvider = ({ children }) => {
 
     const addProd = (candy, cantidadAgg) => {
 
-        console.log(candy)
+        console.log(cantidadAgg)
+       
         if (InCart(candy.id)) {
-            const update = cart.map((prod) => {
+            const update = cart.map(prod => {
                 if (prod.id === candy.id) {
-                    const newCantidad = prod.cantidad + cantidadAgg
-                    return {
-                        ...prod,
-                        cantidad: newCantidad
-                    }
+                    let newCantidad = prod.cantidad + cantidadAgg
+                    const newProd = {...prod, cantidad: parseInt(newCantidad)}
+                    console.log(newProd)
+                    return newProd
+                    
                 }
                 return prod
             })
 
-            setCart([update])
+            setCart(update)
         }
         else {
-            const newProd = { 'cantidad': cantidadAgg, ...candy }
+            const newProd = { cantidad: cantidadAgg, ...candy }
             setCart([...cart, newProd])
-
+            console.log(cart)
         }
 
     }
@@ -47,8 +48,17 @@ export const CartContextProvider = ({ children }) => {
     const clear = () => {
         setCart([])
     }
+
+    const getTotal = () => {
+      let total = 0
+      cart.forEach(prod => {
+          total = total + prod.precio * prod.cantidad
+      })
+      return total
+    };
+
     return (
-        <CartContext.Provider value={{ addProd, removeProd, clear }}>
+        <CartContext.Provider value={{ addProd, removeProd, clear, cart, getTotal }}>
             {children}
         </CartContext.Provider>
     )
