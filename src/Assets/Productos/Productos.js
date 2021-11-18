@@ -2,7 +2,7 @@
 const products = [
     {
         id: "1",
-        name: "BOMBOM DE FRUTA",
+        name: "BOMBON DE FRUTA",
         unidades: 32,
         sabores: "Manza, Naranja, Uva, Cereza, Frutilla",
         precio: 1000,

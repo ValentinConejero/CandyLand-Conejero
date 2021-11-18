@@ -4,6 +4,9 @@ import React, { useState, useEffect } from 'react';
 import products from "../../Assets/Productos/Productos"
 import { useParams } from "react-router";
 import { capt } from "../../Assets/Funciones";
+import { collection, getDocs, query, where } from "firebase/firestore"
+import {getFirestore} from "../../FireBase/index"
+
 
 const ItemListContainer = () => {
 
@@ -11,32 +14,39 @@ const ItemListContainer = () => {
     const {category} = useParams();
 
     console.log(category)
-    useEffect(() => {
+    useEffect(() => { 
 
-        const list = new Promise((resolve, reject) => {
+        const db = getFirestore();
 
-            setTimeout(() => {
-                resolve(products)
-            }, 2000)
-    
-        });
+        if(!category){ 
 
-        list.then(
-            list => {
-                setProductos(list)
-                if(!category){
-                    setProductos(list);
-                }
-                else{
-                    const prodCategory = list.filter(prod => prod.category.toLowerCase() === category)
-                    
-                    setProductos(prodCategory)
-                    
-                }
-        } )
+            getDocs(collection(db, "Productos")).then(snapshot => {
+                const produc = snapshot.docs.map(doc => {
+                    return {id: doc.id, ...doc.data()}
+                })
+                setProductos(produc)
+            }).catch((error) => {
+                console.log("error al buscar producto", error)
+            })
+            return (() => {
+                setProductos([])
+            }, [category]);
+        }  
+        else{
+            getDocs(query(collection(db, "Productos"),where("category", "==", category ))).then((querySnapshot) => {
+                const produc = querySnapshot.docs.map(doc => {
+                    return {id: doc.id, ...doc.data()}
+            })
+            setProductos(produc)
+        }).catch((error) => {
+            console.log("Error no se encontro el producto", error)
+        })
+      
+        }
+      
         return (() => {
                     setProductos([])
-                }) 
+                })
     },  [category])
     
 

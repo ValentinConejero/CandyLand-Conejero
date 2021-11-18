@@ -5,6 +5,8 @@ import { NavLink } from "react-router-dom"
 import Tick from "../../Assets/img/Tick.png"
 import { CartContext } from "../../Context/CartContext/CartContext";
 
+
+
 const ItemDetail = ({candy, count, setCount }) => {
 
     const [agg, setAgg] = useState(false);

@@ -2,34 +2,29 @@ import { useState, useEffect } from "react";
 import { useParams } from "react-router";
 import products from "../../Assets/Productos/Productos"
 import ItemDetail from "../ItemDetail/ItemDetail"
+import {getDoc, doc } from "firebase/firestore"
+import {getFirestore} from "../../FireBase/index"
 
-const ItemDetailContainer = ({count, setCount}) => {
+
+
+const ItemDetailContainer = ({ count, setCount }) => {
 
     const [candy, setCandy] = useState([])
     const { id } = useParams()
-    
+
     useEffect(() => {
 
-        const list = new Promise((resolve, reject) => {
+        const db = getFirestore();
 
-            setTimeout(() => {
-                resolve(products)
-            }, 2000)
+        getDoc(doc(db, "Productos", id)).then(snapshot => {
+            const produ = { id: snapshot.id, ...snapshot.data()}
+            setCandy(produ)
+        })
 
-        });
-
-        list.then(list => {
-            const detail = list.find(prod => prod.id === id)
-
-            setCandy(detail)
-
-        }
-
-        );
     }, [id]);
 
     return <>
-    <ItemDetail candy={candy} count={count} setCount={setCount} />
+        <ItemDetail candy={candy} count={count} setCount={setCount} />
 
     </>
 
