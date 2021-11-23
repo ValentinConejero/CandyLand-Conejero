@@ -4,18 +4,33 @@ import { CartContext } from "../../Context/CartContext/CartContext"
 import { useEffect, useState } from 'react';
 import { NavLink } from 'react-router-dom';
 import "./CartList.css"
+import { addDoc } from '@firebase/firestore';
+import { collection } from "firebase/firestore"
+import { getFirestore } from "../../FireBase/index"
 
 const CartList = () => {
 
-    const { cart, getTotal } = useContext(CartContext);
+    const { cart, getTotal, setCart, id, setId } = useContext(CartContext);
     const [total, setTotal] = useState(0);
 
     useEffect(() => {
         setTotal(getTotal())
     }, [getTotal, cart])
 
-    console.log(total)
-    console.log(cart)
+    const sendOrder = () => {
+        const order = {
+        buyer: {name: "Valentin", phone: "1111", email: "asd@gmail.com"},
+        items: cart,
+        total: total
+        };
+        const db = getFirestore();
+        const orderCollection = collection(db, "Orders")
+
+        addDoc(orderCollection, order).then(({id}) => setId(id));
+
+        setCart([])
+    }
+
     return (
         <>
             {(cart.length === 0) ?
@@ -62,7 +77,7 @@ const CartList = () => {
                             <p><b className="marglet">TOTAL A PAGAR:</b>${total}</p>
                         </div>
                         <div className="col-sm-12 totalbut">
-                            <NavLink type="button-sm" to="/cart" className="btn btn-outline-success margbut">COMPRAR </NavLink>
+                            <NavLink type="button-sm" to="/buy" className="btn btn-outline-success margbut" onClick={() => sendOrder()}>COMPRAR </NavLink>
                         </div>
                     </div>
                 </div>

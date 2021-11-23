@@ -1,28 +1,28 @@
 import ItemList from "../ItemList/ItemList"
 import "./ItemListStyle.css"
 import React, { useState, useEffect } from 'react';
-import products from "../../Assets/Productos/Productos"
 import { useParams } from "react-router";
 import { capt } from "../../Assets/Funciones";
 import { collection, getDocs, query, where } from "firebase/firestore"
-import {getFirestore} from "../../FireBase/index"
-
+import { getFirestore } from "../../FireBase/index"
+import Loading from "../Loading/Loading"
 
 const ItemListContainer = () => {
 
     const [productos, setProductos] = useState([]);
-    const {category} = useParams();
+    const { category } = useParams();
+
 
     console.log(category)
-    useEffect(() => { 
+    useEffect(() => {
 
         const db = getFirestore();
 
-        if(!category){ 
+        if (!category) {
 
             getDocs(collection(db, "Productos")).then(snapshot => {
                 const produc = snapshot.docs.map(doc => {
-                    return {id: doc.id, ...doc.data()}
+                    return { id: doc.id, ...doc.data() }
                 })
                 setProductos(produc)
             }).catch((error) => {
@@ -31,41 +31,46 @@ const ItemListContainer = () => {
             return (() => {
                 setProductos([])
             }, [category]);
-        }  
-        else{
-            getDocs(query(collection(db, "Productos"),where("category", "==", category ))).then((querySnapshot) => {
-                const produc = querySnapshot.docs.map(doc => {
-                    return {id: doc.id, ...doc.data()}
-            })
-            setProductos(produc)
-        }).catch((error) => {
-            console.log("Error no se encontro el producto", error)
-        })
-      
         }
-      
-        return (() => {
-                    setProductos([])
+        else {
+            getDocs(query(collection(db, "Productos"), where("category", "==", category))).then((querySnapshot) => {
+                const produc = querySnapshot.docs.map(doc => {
+                    return { id: doc.id, ...doc.data() }
                 })
-    },  [category])
-    
+                setProductos(produc)
+            }).catch((error) => {
+                console.log("Error no se encontro el producto", error)
+            })
+
+        }
+
+        return (() => {
+            setProductos([])
+        })
+    }, [category])
+
+    if (productos.length === 0) {
+        return (
+            <Loading />
+        )
+    }
 
     return <>
 
-        {(!category)?
-             <div className="center container col-sm-12" >
-             <h1 className="orange font  block"><p className="red font"> NUESTROS</p>PRODUCTOS </h1>
-             </div>
-        :
+        {(!category) ?
+            <div className="center container col-sm-12" >
+                <h1 className="orange font  block"><p className="red font"> NUESTROS</p>PRODUCTOS </h1>
+            </div>
+            :
             <div className="center container col-sm-12" >
                 <h1 className="pink  block"><b>{capt(category)}</b></h1>
             </div>
         }
 
-       
 
 
-       
+
+
         <ItemList productos={productos} />
     </>
 }

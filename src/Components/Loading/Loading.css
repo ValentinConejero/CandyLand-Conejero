@@ -1,0 +1,13 @@
+.fontstyle {
+    font-size: 30px;
+    color: orange;
+}
+
+.loadcent {
+    justify-content: center;
+    padding-left: 300px;
+}
+
+.spintop{
+    margin-top: 8px;
+}
