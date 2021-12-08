@@ -2,9 +2,6 @@ import "./Cart.css"
 import CartList from "../CartList/CartList"
 
 const Cart = () => {
-
-
-
     return (
         <div>
             <h1 >

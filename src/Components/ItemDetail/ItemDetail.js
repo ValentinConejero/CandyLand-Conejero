@@ -4,20 +4,24 @@ import React, { useContext, useEffect, useState } from 'react';
 import { NavLink } from "react-router-dom"
 import Tick from "../../Assets/img/Tick.png"
 import { CartContext } from "../../Context/CartContext/CartContext";
+import  NotificationContext  from "../../Context/NotificationContext/NotificationContext";
 
 
-
-const ItemDetail = ({candy, count, setCount }) => {
+const ItemDetail = ({ candy, count, setCount }) => {
 
     const [agg, setAgg] = useState(false);
-    const [counter, setCounter] = useState(0);
+    const [counter, setCounter] = useState(1);
     const { addProd } = useContext(CartContext)
+    const { setNotification } = useContext(NotificationContext)
 
     const onAdd = () => {
+        if (counter === 0) {
+            return setNotification("Error, no se pueden comprar 0 productos.", 2000)
+        }
         setCount(count + counter)
         setAgg(true)
         addProd(candy, counter)
-        
+
     }
 
 
@@ -27,7 +31,7 @@ const ItemDetail = ({candy, count, setCount }) => {
 
     return <>
 
-        <div className="row col-sm-12 mt ac">
+        <div className="row col-sm-12 mt">
             <div className="col-sm-6 ds imge">
                 <img className="card-img-top tami bordi " src={candy?.img} alt="imgCard"></img>
             </div>
@@ -49,7 +53,9 @@ const ItemDetail = ({candy, count, setCount }) => {
                         </div>
                         :
                         <div>
-                            <img className="navbar-brand logo " href="Tick" src={Tick} alt="ImgLogo"></img>
+                            <div className="check">
+                                <img className="navbar-brand logo " href="Tick" src={Tick} alt="ImgLogo"></img>
+                            </div>
                             <p className=""><b>Producto Agregado</b></p>
                             <NavLink type="button-sm" to={`/`} className="btn btn-outline-danger">Más Productos </NavLink>
                             <NavLink type="button-sm" to={`/cart`} className="btn btn-outline-success but">Ir al carrito </NavLink>
@@ -58,13 +64,7 @@ const ItemDetail = ({candy, count, setCount }) => {
 
                 </div>
             </div>
-
-
-
-
         </div>
-
-
     </>
 }
 

@@ -1,23 +1,70 @@
-import {initializeApp} from 'firebase/app'
+import { initializeApp } from 'firebase/app'
 import { getFirestore } from "firebase/firestore";
+import {
+    collection,
+    addDoc,
+    getDoc,
+    doc,
+    Timestamp,
+    writeBatch,
+} from 'firebase/firestore'
 
 const firebaseConfig = {
-    apiKey: "AIzaSyDBgD-lhuP7-M9ZlASRfgGaQGq3kB85mn4",
+    apiKey: process.env.REACT_APP_apiKey,
 
-    authDomain: "candyland-b6848.firebaseapp.com",
+    authDomain: process.env.REACT_APP_authDomain,
 
-    projectId: "candyland-b6848",
+    projectId: process.env.REACT_APP_projectId,
 
-    storageBucket: "candyland-b6848.appspot.com",
+    storageBucket: process.env.REACT_APP_storageBucket,
 
-    messagingSenderId: "983412328482",
+    messagingSenderId: process.env.REACT_APP_messagingSenderId,
 
-    appId: "1:983412328482:web:62c7ea223e9b3e6ddc227b"
+    appId: process.env.REACT_APP_appId
 
 };
 
+
 const app = initializeApp(firebaseConfig);
 
-export const getFirebase = () => {return app};
+const db = getFirestore();
+
+export const getFirebase = () => { return app };
 
 export { getFirestore };
+
+
+export const newOrder = (order, setId) => {
+
+    return new Promise((resolve, reject) => {
+        order = {
+            ...order,
+            date: Timestamp.fromDate(new Date())
+        }
+        const batch = writeBatch(db)
+        const outOfStock = []
+
+        order.items.forEach((prod, i) => {
+            getDoc(doc(db, 'Productos', prod.id)).then(DocumentSnapshot => {
+                if (DocumentSnapshot.data().stock >= order.items[i].cantidad) {
+                    batch.update(doc(db, 'Productos', DocumentSnapshot.id), {
+                        stock: DocumentSnapshot.data().stock - order.items[i].cantidad
+                    })
+                } else {
+                    outOfStock.push({ ...DocumentSnapshot.data(), id: DocumentSnapshot.id })
+                }
+            })
+        })
+
+        if (outOfStock.length === 0) {
+            addDoc(collection(db, 'Orders'), order).then(({ id }) => {
+                setId(id)
+                batch.commit().then(() => {
+                    resolve("Compra exitosa!")
+                })
+            }).catch((error) => {
+                reject("Algo salio mal, intente de nuevo.", error)
+            })
+        }
+    })
+}

@@ -12,11 +12,6 @@ const ItemDetailContainer = ({ count, setCount }) => {
     const [candy, setCandy] = useState([])
     const { id } = useParams()
 
-    
-
-
-
-
     useEffect(() => {
 
         const db = getFirestore();
@@ -30,7 +25,7 @@ const ItemDetailContainer = ({ count, setCount }) => {
 
     if (candy.length === 0) {
         return (
-        <Loading />
+            <Loading />
         )
     }
 

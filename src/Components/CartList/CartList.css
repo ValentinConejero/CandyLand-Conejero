@@ -7,7 +7,7 @@
 }
 
 .totalbut{
-    justify-content:end;
+    justify-content: flex-end;
     display: flex;
 }
 
@@ -17,9 +17,34 @@
 }
 
 .margbut{
-    margin-right: 30px;
+    margin-right: 13px;
 }
 
 .marglet{
     margin-right: 2px;
+}
+
+.marginp{
+    margin-left: 10px;
+}
+
+.buysButtons{
+    display: flex;
+    justify-content: space-between;
+}
+
+.marginb{
+    margin-left: 50px;
+}
+
+.pMargin{
+    margin-left: 63px;
+}
+
+.marginbuy{
+    margin-right: 13px;
+}
+
+.margincancel{
+    margin-right: 0px;
 }

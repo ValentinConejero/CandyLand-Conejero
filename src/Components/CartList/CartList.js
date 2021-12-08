@@ -4,13 +4,11 @@ import { CartContext } from "../../Context/CartContext/CartContext"
 import { useEffect, useState } from 'react';
 import { NavLink } from 'react-router-dom';
 import "./CartList.css"
-import { addDoc } from '@firebase/firestore';
-import { collection } from "firebase/firestore"
-import { getFirestore } from "../../FireBase/index"
+import { newOrder } from "../../FireBase/index";
 
 const CartList = () => {
 
-    const { cart, getTotal, setCart, id, setId } = useContext(CartContext);
+    const { cart, getTotal, setCart, setId, buyer, setBuyer } = useContext(CartContext);
     const [total, setTotal] = useState(0);
 
     useEffect(() => {
@@ -18,16 +16,15 @@ const CartList = () => {
     }, [getTotal, cart])
 
     const sendOrder = () => {
+        
         const order = {
-        buyer: {name: "Valentin", phone: "1111", email: "asd@gmail.com"},
-        items: cart,
-        total: total
+            buyer: buyer,
+            items: cart,
+            total: total
         };
-        const db = getFirestore();
-        const orderCollection = collection(db, "Orders")
-
-        addDoc(orderCollection, order).then(({id}) => setId(id));
-
+        newOrder(order, setId)
+        setTotal(0)
+        setBuyer()
         setCart([])
     }
 
@@ -38,13 +35,13 @@ const CartList = () => {
                     <div className="col-sm-12">
                         <p><b>EL CARRITO ESTA VACIO</b></p>
                     </div>
-                    <div className="col-sm-12">
+                    <div className="col-sm-12 ">
                         <NavLink type="button-sm" to={`/`} className="btn btn-outline-danger">MENU </NavLink>
                     </div>
                 </div>
                 :
                 <div>
-                    <div className="row bord">
+                    <div className="row bord margincancel">
 
                         <div className="col-sm-2 data">
                             <p><b>PRODUCTO</b></p>
@@ -72,12 +69,28 @@ const CartList = () => {
                     )
                     )}
 
-                    <div className="row totp">
+                    <div className="row totp margincancel">
                         <div className="col-sm-12 totalbut">
-                            <p><b className="marglet">TOTAL A PAGAR:</b>${total}</p>
+                            <p><b className="marglet">TOTAL A PAGAR:</b> ${total}</p>
                         </div>
-                        <div className="col-sm-12 totalbut">
-                            <NavLink type="button-sm" to="/buy" className="btn btn-outline-success margbut" onClick={() => sendOrder()}>COMPRAR </NavLink>
+                        <div className="col-sm-12 totalbut row">
+                            {buyer === undefined ?
+                                <div className="totalbut">
+                                    <NavLink type="button-sm" to="/formbuy" className="btn btn-outline-primary margbut">Formulario </NavLink>
+                                </div>
+                                :
+                                <>
+                                    <div>
+                                        <p className="pMargin"><b>Envio </b></p>
+                                        <p className="marginp"><b>Email:</b> {buyer.email}</p>
+                                        <p className="marginp"><b>Direccion:</b> {buyer.direccion}</p>
+                                    </div>
+                                    <div className="buysButtons">
+                                        <NavLink type="button-sm" to="/formbuy" className="btn btn-outline-primary marginb" onClick={() => setBuyer()}>Editar</NavLink>
+                                        <NavLink type="button-sm" to="/buy" className="btn btn-outline-success marginbuy" onClick={() => sendOrder()}>COMPRAR </NavLink>
+                                    </div>
+                                </>
+                            }
                         </div>
                     </div>
                 </div>

@@ -7,6 +7,7 @@ export const CartContextProvider = ({ children }) => {
 
     const [cart, setCart] = useState([])
     const [id, setId] = useState();
+    const [buyer, setBuyer] = useState();
 
     const InCart = (candyId) => {
         let isIn = false
@@ -17,16 +18,13 @@ export const CartContextProvider = ({ children }) => {
 
     const addProd = (candy, cantidadAgg) => {
 
-        console.log(cantidadAgg)
-       
         if (InCart(candy.id)) {
             const update = cart.map(prod => {
                 if (prod.id === candy.id) {
                     let newCantidad = prod.cantidad + cantidadAgg
-                    const newProd = {...prod, cantidad: parseInt(newCantidad)}
-                    console.log(newProd)
+                    const newProd = { ...prod, cantidad: parseInt(newCantidad) }
                     return newProd
-                    
+
                 }
                 return prod
             })
@@ -36,7 +34,6 @@ export const CartContextProvider = ({ children }) => {
         else {
             const newProd = { cantidad: cantidadAgg, ...candy }
             setCart([...cart, newProd])
-            console.log(cart)
         }
 
     }
@@ -51,15 +48,23 @@ export const CartContextProvider = ({ children }) => {
     }
 
     const getTotal = () => {
-      let total = 0
-      cart.forEach(prod => {
-          total = total + prod.precio * prod.cantidad
-      })
-      return total
+        let total = 0
+        cart.forEach(prod => {
+            total = total + prod.precio * prod.cantidad
+        })
+        return total
     };
 
+    const getTotalCount = () => {
+        let totalItems = 0
+        cart.forEach(prod => {
+            totalItems = totalItems + prod.cantidad
+        })
+        return totalItems
+    }
+
     return (
-        <CartContext.Provider value={{ addProd, removeProd, clear, cart, getTotal, setCart, id, setId }}>
+        <CartContext.Provider value={{ addProd, removeProd, clear, cart, getTotal, setCart, id, setId, buyer, setBuyer, getTotalCount }}>
             {children}
         </CartContext.Provider>
     )

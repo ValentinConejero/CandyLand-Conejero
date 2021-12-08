@@ -28,3 +28,7 @@
 .col{
     justify-content: center;
 }
+
+.marginCard{
+    margin-bottom: 10px;
+}

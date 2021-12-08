@@ -8,34 +8,40 @@ import ItemDetailContainer from './Components/ItemDetailContainer/ItemDetailCont
 import { BrowserRouter, Switch, Route } from 'react-router-dom';
 import Cart from './Components/Cart/Cart'
 import { CartContextProvider } from './Context/CartContext/CartContext'
+import { NotificationContextProvider } from './Context/NotificationContext/NotificationContext'
+import FormBuy from './Components/FormBuy/FormBuy'
 import Buy from './Components/Buy/Buy'
+import Notification from './Components/Notification/Notification'
 
 function App() {
   const [count, setCount] = useState(0);
   return (
     <>
+      <NotificationContextProvider>
+        <CartContextProvider>
+          <BrowserRouter>
+            <header >
+              <Navbar count={count} />
+            </header>
+            <main>
+              <Notification />
+              <Switch>
+                <Route exact path='/item/:id'>
+                  <ItemDetailContainer count={count} setCount={setCount}></ItemDetailContainer>
+                </Route>
+                <Route exact path='/' component={ItemListContainer} />
+                <Route exact path='/category/:category' component={ItemListContainer} />
+                <Route exact path='/Cart' component={Cart} />
+                <Route exact path='/formbuy' component={FormBuy} />
+                <Route exact path='/buy' component={Buy} />
+              </Switch>
 
-      <CartContextProvider>
-        <BrowserRouter>
-          <header >
-            <Navbar count={count} />
-          </header>
-          <main>
-            <Switch>
-              <Route exact path='/item/:id'>
-                <ItemDetailContainer count={count} setCount={setCount}></ItemDetailContainer>
-              </Route>
-              <Route exact path='/' component={ItemListContainer} />
-              <Route exact path='/category/:category' component={ItemListContainer} />
-              <Route exact path='/Cart' component={Cart} />
-              <Route exact path='/buy' component={Buy} />
-            </Switch>
-            
-          </main>
+            </main>
 
 
-        </BrowserRouter>
-      </CartContextProvider>
+          </BrowserRouter>
+        </CartContextProvider>
+      </NotificationContextProvider>
     </>
   );
 }
